@@ -136,6 +136,10 @@ def activate(request, username, activation_key,
             messages.success(request, _('Your account has been activated and you have been signed in.'),
                              fail_silently=True)
 
+        if userena_settings.USERENA_SIGNIN_REDIRECT_URL:
+            success_url = userena_settings.USERENA_SIGNIN_REDIRECT_URL
+            redirect_to = success_url % {'username': user.username }
+            
         if success_url: redirect_to = success_url % {'username': user.username }
         else: redirect_to = reverse('userena_profile_detail',
                                     kwargs={'username': user.username})
